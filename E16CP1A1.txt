@@ -1,0 +1,31 @@
+CREATE DATABASE call_list;
+
+CREATE TABLE users (id INTEGER PRIMARY KEY, first_name TEXT, email VARCHAR(64));
+
+INSERT INTO users VALUES (1, ‘Carlos’, ‘carlos@desafiolatam.cl’);
+
+INSERT INTO users VALUES (1, ‘Laura’, ‘laura@desafiolatam.cl’);
+
+CREATE TABLE calls (id SERIAL PRIMARY KEY, phone INTEGER, date DATE, user_id INTEGER);
+
+ALTER TABLE calls ADD CONSTRAINT userfk FOREIGN KEY (user_id) REFERENCES users (id);
+
+ALTER TABLE users ADD COLUMN (last_name TEXT);
+
+UPDATE users SET last_name = 'Caseli' WHERE id = 1;
+
+UPDATE users SET last_name = 'Pausini' WHERE id = 2;
+
+INSERT INTO calls (phone, date, user_id) VALUES (123456,'2001-12-09',2); x6
+
+INSERT INTO calls (phone, date, user_id) VALUES (123456,'2001-12-09’,1);  x4
+
+SELECT first_name, count(calls) FROM users FULL JOIN calls ON (users.id = calls.user_id) group by first_name;
+
+SELECT count(calls),date FROM users FULL JOIN calls ON (users.id = calls.user_id)  where users.id = 1 group by calls.date;
+
+CREATE TABLE audit (id SERIAL PRIMARY KEY, cause VARCHAR(250);
+
+ALTER TABLE audit ADD CONSTRAINT callfk FOREIGN KEY (id) REFERENCES calls(id);
+
+ALTER TABLE audit ADD CONSTRAINT userfk FOREIGN KEY (id) REFERENCES users(id);
